@@ -51,12 +51,12 @@ namespace WCT
                     selection = selection.Insert(selection.Length, "'");
                 }
 
-                Debug.Print("sel: " + "`" + selection + "`" + " vs prev: " + "`" + previous_side + "`");
+                //Debug.Print("sel: " + "`" + selection + "`" + " vs prev: " + "`" + previous_side + "`");
                 if (selection == previous_side)
                     invalid = true;
                 if (selection.Substring(0, 1) == previous_side)
                     invalid = true;
-                if (invalid) Debug.Print("だめ");
+                //if (invalid) Debug.Print("だめ");
             }
 
 
