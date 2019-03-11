@@ -16,12 +16,15 @@ namespace WCT
         Scramble s;
         bool is_solving;
         DateTime StartTime;
+        int total_ms = 0;
         public Form1()
         {
             InitializeComponent();
             s = new Scramble();
             label1.Text = "Press Space to generate a scramble";
             is_solving = false;
+            this.DoubleBuffered = true;
+            SetStyle(ControlStyles.AllPaintingInWmPaint, true);
         }
 
         private void Form1_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
@@ -31,11 +34,13 @@ namespace WCT
                 if(!is_solving)
                 {
                     timer1.Stop();
+                    MessageBox.Show("time elapsed:\n"+total_ms.ToString() + " ms");
                     label1.Text = "Scramble:\n" + s.scramble_gen().ToString();
                     is_solving = true;
                 }
                 else
                 {
+                    total_ms = 0;
                     timer1.Start();
                     StartTime = DateTime.Now;
                     is_solving = false;
@@ -46,6 +51,7 @@ namespace WCT
         private void timer1_Tick(object sender, EventArgs e)
         {
             TimeSpan elapsed = DateTime.Now - StartTime;
+            total_ms += elapsed.Milliseconds;
             string time_text = "";
             int tenths = elapsed.Milliseconds / 10;
             time_text +=

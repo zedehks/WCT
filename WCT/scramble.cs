@@ -12,6 +12,7 @@ namespace WCT
         private static int SCRAMBLE_SIZE = 25;
         private static char[] CUBE_FACES = new char[]
         { 'F', 'B', 'L', 'R', 'U', 'D' };
+        Random r = new Random();
 
         public string scramble_gen()
         {
@@ -32,7 +33,6 @@ namespace WCT
         private string select_side(string previous_side)
         {
             string selection = "";
-            Random r = new Random();
             bool invalid = true;
 
             // select a side and make sure it's not a repeat
