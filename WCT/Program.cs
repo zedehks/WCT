@@ -16,26 +16,42 @@ namespace WCT
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new Login());
+
             sqlite_connector con = new sqlite_connector();
             con.open();
-            int amount_users = Convert.ToInt32(con.select(@"select count(id_user) from users;").Tables[0].Rows[0].ItemArray[0].ToString());
+            int amount_users = Convert.ToInt32(
+                con.select(@"select count(id_user) from users;")
+                .Tables[0].Rows[0].ItemArray[0].ToString());
+            con.close();
+
+            string registered_user;
+            //if we have 0 users, then prompt the user to generate the root account
             if (amount_users < 1)
             {
                 if(first_time_run())
-                   Application.Run(new User.Register(true));
+                {
+                    User.Login u_login = new User.Login();
+                    registered_user = u_login.username;
+                   Application.Run(new User.Register(u_login,true));
+                    if (u_login.username != null)
+                       Application.Run(u_login);
+                }
             }
+            //otherwise just start the login by default
             else
             {
-                MessageBox.Show(amount_users.ToString());
+                Application.Run(new User.Login());
             }
         }
+
+
         static bool first_time_run()
         {
                string ms_text = "Welcome to WCT, the WCT Cube Timer.\n\n" +
                    "Since this is the first time you've run this software, you will now create your Root account, to manage " +
-                   "all others. Please notice that you will -NOT- be able to reset this password if you lose it. " +
-                   "Additionally, this application stores all passwords as plaintext, so please use your brain and -DO NOT- use your bank credentials (or any other, for that matter) here.";
+                   "all others. Please note that you will -NOT- be able to reset this password if you lose it. " +
+                   "Additionally, this application stores all passwords as plaintext, so " +
+                   "please use your brain and -DO NOT- use your bank credentials (or any others, for that matter) here.";
                string ms_caption = "Yo, A Brief Heads-up";
                MessageBoxButtons buttons = MessageBoxButtons.OKCancel;
                DialogResult result;
@@ -46,6 +62,10 @@ namespace WCT
                 return true;
             return false;
 
+        }
+        public static void open_login()
+        {
+            Application.Run(new User.Login());
         }
     }
 }
