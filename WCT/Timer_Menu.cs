@@ -11,13 +11,13 @@ using System.Windows.Input;
 
 namespace WCT
 {
-    public partial class Form1 : Form
+    public partial class Timer_Menu : Form
     {
         Scramble s;
         bool is_solving;
         DateTime StartTime;
         double total_ms = 0;
-        public Form1()
+        public Timer_Menu()
         {
             InitializeComponent();
             s = new Scramble();
@@ -34,8 +34,8 @@ namespace WCT
                 if(!is_solving)
                 {
                     timer1.Stop();
-                    MessageBox.Show("time elapsed:\n"+total_ms.ToString() + " ms");
-                    MessageBox.Show(TimeSpan.FromMilliseconds(total_ms).ToString("c"));
+                    //MessageBox.Show("time elapsed:\n"+total_ms.ToString() + " ms");
+                    //MessageBox.Show(TimeSpan.FromMilliseconds(total_ms).ToString("c"));
                     label1.Text = "Scramble:\n" + s.scramble_gen().ToString();
                     is_solving = true;
                 }

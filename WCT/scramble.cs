@@ -9,8 +9,8 @@ namespace WCT
 {
     class Scramble
     {
-        private static int SCRAMBLE_SIZE = 25;
-        private static char[] CUBE_FACES = new char[]
+        private static readonly int SCRAMBLE_SIZE = 25;
+        private static readonly char[] CUBE_FACES = new char[]
         { 'F', 'B', 'L', 'R', 'U', 'D' };
         Random r = new Random();
 

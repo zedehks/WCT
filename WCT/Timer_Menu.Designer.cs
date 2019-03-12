@@ -1,6 +1,6 @@
 ﻿namespace WCT
 {
-    partial class Form1
+    partial class Timer_Menu
     {
         /// <summary>
         /// Required designer variable.
