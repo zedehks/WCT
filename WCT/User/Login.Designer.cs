@@ -44,6 +44,7 @@
             this.button1.TabIndex = 2;
             this.button1.Text = "Login";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // label1
             // 
@@ -77,6 +78,7 @@
             this.textBox2.Size = new System.Drawing.Size(154, 20);
             this.textBox2.TabIndex = 1;
             this.textBox2.UseSystemPasswordChar = true;
+            this.textBox2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox2_KeyDown);
             // 
             // button2
             // 

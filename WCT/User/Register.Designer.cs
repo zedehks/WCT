@@ -98,6 +98,7 @@
             this.textBox3.Size = new System.Drawing.Size(154, 20);
             this.textBox3.TabIndex = 2;
             this.textBox3.UseSystemPasswordChar = true;
+            this.textBox3.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox3_KeyDown);
             // 
             // label3
             // 

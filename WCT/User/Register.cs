@@ -115,5 +115,14 @@ namespace WCT.User
 
             return oll_korrect;
         }
+
+        private void textBox3_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.Handled = true;
+                button1.PerformClick();
+            }
+        }
     }
 }
