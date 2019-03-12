@@ -12,9 +12,17 @@ namespace WCT
 {
     public partial class Login : Form
     {
+        sqlite_connector con;
         public Login()
         {
             InitializeComponent();
+            con = new sqlite_connector();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            User.Register r = new User.Register(false);
+            r.ShowDialog();
         }
     }
 }

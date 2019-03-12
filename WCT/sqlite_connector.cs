@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Data.SQLite;
 using System.Data;
 
-namespace Citas
+namespace WCT
 {
     class sqlite_connector
     {

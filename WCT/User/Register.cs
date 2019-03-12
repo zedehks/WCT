@@ -12,9 +12,11 @@ namespace WCT.User
 {
     public partial class Register : Form
     {
-        public Register()
+        bool root;
+        public Register(bool root)
         {
             InitializeComponent();
+            this.root = root;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -24,7 +26,18 @@ namespace WCT.User
 
         private void button2_Click(object sender, EventArgs e)
         {
+            this.Close();
+        }
 
+        private void Register_Load(object sender, EventArgs e)
+        {
+            this.BringToFront();
+            this.Activate();
+            if (root)
+            {
+                this.textBox1.Enabled = false;
+                this.textBox1.Text = "Root";
+            }
         }
     }
 }
