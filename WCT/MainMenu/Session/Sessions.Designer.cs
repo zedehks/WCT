@@ -61,7 +61,10 @@
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.Size = new System.Drawing.Size(800, 450);
             this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentDoubleClick);
+            this.dataGridView1.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_MouseDown);
             this.dataGridView1.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_MouseDown);
+            this.dataGridView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView1_KeyDown);
             // 
             // contextMenuStrip1
             // 
@@ -77,6 +80,7 @@
             this.selectSessionAndOpenTimerToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
             this.selectSessionAndOpenTimerToolStripMenuItem.Text = "Select Session and Open Timer";
             this.selectSessionAndOpenTimerToolStripMenuItem.Click += new System.EventHandler(this.selectSessionAndOpenTimerToolStripMenuItem_Click);
+            this.selectSessionAndOpenTimerToolStripMenuItem.DoubleClick += new System.EventHandler(this.selectSessionAndOpenTimerToolStripMenuItem_DoubleClick);
             // 
             // sessionsToolStripMenuItem
             // 

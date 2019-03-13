@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,11 +25,13 @@ namespace WCT.MainMenu.Session
             this.ss = s;
             this.session_user = s.user_id;
         }
-        public void get_values(string datetime,string comment,string id_user)
+        public void get_values(string datetime,string comment,string id_user,string session)
         {
             this.textBox1.Text = comment;
+            // this.dateTimePicker1.Value = DateTime.ParseExact(datetime,"dd/MM/yyyy h:mm:ss tt",CultureInfo.InvariantCulture);
             this.dateTimePicker1.Value = DateTime.Parse(datetime);
             this.session_user = id_user;
+            session_id = session;
         }
         private void New_Session_Load(object sender, EventArgs e)
         {
@@ -46,13 +49,25 @@ namespace WCT.MainMenu.Session
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string sql = @"insert into session(id_user,time_date,comment) values({0},'{2}','{1}')";
-            con.open();
-            con.command(string.Format(sql,this.session_user,this.textBox1.Text, dateTimePicker1.Value.ToString("yyyy-MM-dd hh:mm")));
-            con.close();
-            ss.update_sessions();
-            //ss.open_timer(session_user);
-            this.Close();
+            string sql;
+            if(isModding)
+            {
+                sql = @"update session set time_date='{0}',comment='{1}' where id_session={2}";
+                con.open();
+                con.command(string.Format(sql, dateTimePicker1.Value.ToString("yyyy-MM-dd hh:mm"),this.textBox1.Text,this.session_id));
+                con.close();
+                ss.update_sessions();
+                this.Close();
+            }
+            else
+            {
+                sql = @"insert into session(id_user,time_date,comment) values({0},'{2}','{1}')";
+                con.open();
+                con.command(string.Format(sql,this.session_user,this.textBox1.Text, dateTimePicker1.Value.ToString("yyyy-MM-dd hh:mm")));
+                con.close();
+                ss.update_sessions();
+                this.Close();
+            }
         }
     }
 }

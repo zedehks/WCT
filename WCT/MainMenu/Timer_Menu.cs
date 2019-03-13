@@ -18,6 +18,10 @@ namespace WCT
         DateTime StartTime;
         double total_ms = 0;
         string id_session;
+        bool show_solves;
+        sqlite_connector con = new sqlite_connector();
+        string current_scramble;
+        bool first_scramble = true;
         public Timer_Menu(string id_session)
         {
             InitializeComponent();
@@ -25,22 +29,30 @@ namespace WCT
             label1.Text = "Press Space to generate a scramble";
             is_solving = false;
             this.id_session = id_session;
-            //  this.DoubleBuffered = true;
-            // SetStyle(ControlStyles.AllPaintingInWmPaint, true);
             MessageBox.Show(id_session);
+            this.show_solves = false;
+            update_solves();
         }
 
         private void Form1_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
-            if(e.KeyCode == Keys.Space)
+            if (e.KeyCode == Keys.Space)
             {
-                if(!is_solving)
+                if (!is_solving)
                 {
                     timer1.Stop();
-                    //MessageBox.Show("time elapsed:\n"+total_ms.ToString() + " ms");
-                    //MessageBox.Show(TimeSpan.FromMilliseconds(total_ms).ToString("c"));
-                    label1.Text = "Scramble:\n" + s.scramble_gen().ToString();
+                    current_scramble = s.scramble_gen().ToString();
+                    label1.Text = "Scramble:\n" + current_scramble;
                     is_solving = true;
+                    if(first_scramble)
+                    {
+                        first_scramble = false;
+
+                    }
+                    else
+                    {
+                        save_solve();
+                    }
                 }
                 else
                 {
@@ -50,8 +62,40 @@ namespace WCT
                     is_solving = false;
                 }
             }
+            else if (e.KeyCode == Keys.Oemtilde)
+            {
+                if(this.show_solves)
+                {
+                    this.show_solves = false;
+                    this.splitContainer2.Panel2Collapsed = true;
+                    splitContainer2.Panel2.Hide();
+                }
+                else
+                {
+                    this.show_solves = true;
+                    this.splitContainer2.Panel2Collapsed = false;
+                    splitContainer2.Panel2.Show();
+                }
+            }
+        }
+        void save_solve()
+        {
+            //string sql = @"insert into solve(id_session,time,scramble) values({0},{1},\"{2}\")";
+            con.open();
+            string tmp = string.Format(sql,id_session,total_ms,current_scramble);
+            con.command(tmp);
+            con.close();
+            update_solves();
         }
 
+        void update_solves()
+        {
+            string sql = @"select id_solve as '#',time as Time,scramble as Scramble
+            from solve";
+            con.open();
+            this.dataGridView1.DataSource = con.select(sql).Tables[0];
+            con.close();
+        }
         private void timer1_Tick(object sender, EventArgs e)
         {
             TimeSpan elapsed = DateTime.Now - StartTime;
@@ -59,6 +103,13 @@ namespace WCT
             string time_text = "";
             time_text = TimeSpan.FromMilliseconds(elapsed.TotalMilliseconds).ToString(@"mm\:ss\.ff");
             this.label2.Text = time_text;
+        }
+
+        private void Timer_Menu_Load(object sender, EventArgs e)
+        {
+            this.show_solves = false;
+            this.splitContainer2.Panel2Collapsed = true;
+            splitContainer2.Panel2.Hide();
         }
     }
 }
