@@ -15,9 +15,19 @@ namespace WCT.User
         bool root=false;
         sqlite_connector con;
         Login parent_login = null;
+        public bool can_exit = false;
+        MainMenu.Modify_Users Modu = null;
+        bool modifying;
+        string user_id;
         public Register()
         {
             InitializeComponent();
+        }
+        public Register(MainMenu.Modify_Users mu,bool ismodding)
+        {
+            InitializeComponent();
+            Modu = mu;
+            modifying = ismodding;
         }
 
         public Register(Login l, bool root)
@@ -29,14 +39,16 @@ namespace WCT.User
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if(!check_valid_values())
+            if (!check_valid_values())
             {
                 MessageBox.Show("One or more fields are empty!");
             }
-            else if(!check_password())
+            else if (!check_password())
             {
                 MessageBox.Show("Passwords do not match!");
             }
+            else if (modifying)
+                update_user();
             else
                 register_user();
 
@@ -61,11 +73,44 @@ namespace WCT.User
                 this.textBox1.Text = "root";
                 this.ActiveControl = this.textBox2;
             }
+            else if (modifying)
+            {
+                this.Text = "Modifying User";
+                this.button1.Text = "Update";
+                this.label2.Text = "New Password";
+                this.label3.Text = "Confirm New Password";
+            }
         }
-
+        public void get_user_data(string user,string id)
+        {
+            this.textBox1.Text = user;
+            this.user_id = id;
+        }
+        void update_user()
+        {
+            string sql_command = @"update users 
+            set username = '{0}', password='{1}' where id_user = {2};";
+            try
+            {
+                con.open();
+                con.command(string.Format(sql_command,this.textBox1.Text,this.textBox2.Text,this.user_id));
+                con.close();
+                MessageBox.Show("User has been updated succesfully!");
+                if (Modu != null) Modu.update_dfv(true);
+                this.Close();
+            }catch (Exception ex)
+            {
+                try { con.close(); } catch { }
+                if (ex.Message.Contains("UNIQUE") && ex.Message.Contains("user"))
+                    MessageBox.Show("Username already registered!");
+                else
+                    MessageBox.Show(ex.Message);
+                Application.DoEvents();
+            }
+        }
         void register_user()
         {
-            bool can_exit = false;
+            can_exit = false;
             string sql_command = @"insert into users(username,password) values ('{0}','{1}');";
             if(root)
             {
@@ -78,7 +123,8 @@ namespace WCT.User
                 con.command(string.Format(sql_command,this.textBox1.Text,this.textBox2.Text));
                 con.close();
                 MessageBox.Show("User has been registered succesfully!");
-                parent_login.get_user(this.textBox1.Text);
+                if (parent_login != null) parent_login.get_user(this.textBox1.Text);
+                if (Modu != null) Modu.update_dfv(true);
                 can_exit = true;
             }
             catch (Exception ex)

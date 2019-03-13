@@ -37,6 +37,10 @@ namespace WCT
                     if (u_login.username != null)
                     {
                         Application.Run(u_login);
+                        if(u_login.login_ok)
+                        {
+                            Application.Run(new MainMenu.MainMenu(u_login.login_id));
+                        }
                     }
                 }
             }
