@@ -15,6 +15,8 @@ namespace WCT.User
         sqlite_connector con;
         public string username;
         public int login_id;
+        public bool login_ok;
+
         public Login()
         {
             InitializeComponent();
@@ -84,10 +86,11 @@ namespace WCT.User
                 }
 
                 if (id == "")
-                    MessageBox.Show("WROOOOOOOOOOOOOOOOOOOOOOONG");
+                    MessageBox.Show("Entered credentials are incorrect.");
                 else
                 {
-                    MessageBox.Show("[Hacker Voice]\n IM IN");
+                    login_ok = true;
+                    login_id = Convert.ToInt32(id);
                     this.Close();
                 }
             }
