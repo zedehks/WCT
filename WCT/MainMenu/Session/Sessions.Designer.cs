@@ -36,6 +36,7 @@
             this.modifySessionToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteSessionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addNewSessionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Session = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Comment = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -50,6 +51,7 @@
             this.dataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Session,
             this.Date,
             this.Comment});
             this.dataGridView1.ContextMenuStrip = this.contextMenuStrip1;
@@ -107,6 +109,14 @@
             this.addNewSessionToolStripMenuItem.Text = "Add New Session...";
             this.addNewSessionToolStripMenuItem.Click += new System.EventHandler(this.addNewSessionToolStripMenuItem_Click_1);
             // 
+            // Session
+            // 
+            this.Session.DataPropertyName = "Session";
+            this.Session.HeaderText = "Session";
+            this.Session.Name = "Session";
+            this.Session.ReadOnly = true;
+            this.Session.Width = 69;
+            // 
             // Date
             // 
             this.Date.DataPropertyName = "Date";
@@ -147,6 +157,7 @@
         private System.Windows.Forms.ToolStripMenuItem addNewSessionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem modifySessionToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem deleteSessionToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Session;
         private System.Windows.Forms.DataGridViewTextBoxColumn Date;
         private System.Windows.Forms.DataGridViewTextBoxColumn Comment;
     }

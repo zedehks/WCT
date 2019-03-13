@@ -12,9 +12,10 @@ namespace WCT.MainMenu.Session
 {
     public partial class Sessions : Form
     {
-        string sql = @"select time_date as Date, comment as Comment from Session where id_user={0} order by Date asc";
+        string sql = @"select id_session as Session,time_date as Date, comment as Comment from Session where id_user={0} order by Date asc";
         sqlite_connector con = new sqlite_connector();
         public string user_id;
+        public string session_id;
         public Sessions(string user)
         {
             InitializeComponent();
@@ -24,13 +25,12 @@ namespace WCT.MainMenu.Session
         private void Sessions_Load(object sender, EventArgs e)
         {
             update_sessions();
-            dataGridView1.Columns[1].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-            dataGridView1.AutoResizeColumn(1,DataGridViewAutoSizeColumnMode.Fill);
+            dataGridView1.Columns[2].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            dataGridView1.AutoResizeColumn(2,DataGridViewAutoSizeColumnMode.Fill);
         }
         public void update_sessions()
         {
             string tmp = string.Format(sql, user_id);
-            MessageBox.Show(tmp);
             con.open();
             this.dataGridView1.DataSource = con.select(tmp).Tables[0];
             con.close();
@@ -45,29 +45,54 @@ namespace WCT.MainMenu.Session
 
         private void modifySessionToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            string datetime = dataGridView1.SelectedRows[0].Cells[0].Value.ToString();
-            string comment = dataGridView1.SelectedRows[0].Cells[1].Value.ToString();
-            New_Session nw = new New_Session(true,this);
-            nw.MdiParent = this.MdiParent;
-            nw.get_values(datetime,comment,user_id);
-            nw.Show();
+            try
+            {
+                string datetime = dataGridView1.SelectedRows[0].Cells[0].Value.ToString();
+                string comment = dataGridView1.SelectedRows[0].Cells[1].Value.ToString();
+                New_Session nw = new New_Session(true, this);
+                nw.MdiParent = this.MdiParent;
+                nw.get_values(datetime, comment, user_id);
+                nw.Show();
+
+            }
+            catch (System.ArgumentOutOfRangeException ex) { }
         }
 
-        public void open_timer(string id_user)
+        public void open_timer(string id_session)
         {
-            Timer_Menu tm = new Timer_Menu(id_user);
+            Timer_Menu tm = new Timer_Menu(id_session);
             tm.MdiParent = this.MdiParent;
             tm.Show();
         }
 
         private void deleteSessionToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            try
+            {
+                string sql = @"delete from session where id_session = {0}";
+                string datetime = dataGridView1.SelectedRows[0].Cells[1].Value.ToString();
+                string comment = dataGridView1.SelectedRows[0].Cells[2].Value.ToString();
+                string session = dataGridView1.SelectedRows[0].Cells[0].Value.ToString();
+                con.open();
+                con.command(string.Format(sql,session));
+                con.close();
+                MessageBox.Show("Session Deleted.");
+                update_sessions();
 
+            }
+            catch (System.ArgumentOutOfRangeException ex) { }
         }
 
         private void selectSessionAndOpenTimerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            try
+            {
+                string session = dataGridView1.SelectedRows[0].Cells[0].Value.ToString();
+                Timer_Menu tm = new Timer_Menu(session);
+                tm.MdiParent = this.MdiParent;
+                tm.Show();
+            }
+            catch (System.ArgumentOutOfRangeException ex) { }
         }
         private void dataGridView1_MouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {

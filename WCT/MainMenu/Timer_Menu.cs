@@ -25,8 +25,9 @@ namespace WCT
             label1.Text = "Press Space to generate a scramble";
             is_solving = false;
             this.id_session = id_session;
-          //  this.DoubleBuffered = true;
-           // SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+            //  this.DoubleBuffered = true;
+            // SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+            MessageBox.Show(id_session);
         }
 
         private void Form1_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
@@ -59,6 +60,5 @@ namespace WCT
             time_text = TimeSpan.FromMilliseconds(elapsed.TotalMilliseconds).ToString(@"mm\:ss\.ff");
             this.label2.Text = time_text;
         }
-
     }
 }
