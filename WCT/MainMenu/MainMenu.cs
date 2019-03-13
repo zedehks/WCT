@@ -8,12 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WCT
+namespace WCT.MainMenu
 {
     public partial class MainMenu : Form
     {
+        readonly int ROOT_ID = 0;
         int id_user;
         sqlite_connector con;
+        ToolStripItem mod_users;
         public MainMenu(int user)
         {
             InitializeComponent();
@@ -31,6 +33,18 @@ namespace WCT
             string title = con.select(string.Format(sql,id_user.ToString())).Tables[0].Rows[0].ItemArray[0].ToString();
             con.close();
             this.Text += ": Logged in as "+title;
+            if (id_user == ROOT_ID)
+            {
+                mod_users = new ToolStripMenuItem("Users",null, userToolStripMenuItem);
+                menuStrip1.Items.Add(mod_users);
+            }
+        }
+
+        private void userToolStripMenuItem(object sender, EventArgs e)
+        {
+            Modify_Users mu = new Modify_Users();
+            mu.MdiParent = this;
+            mu.Show();
         }
 
         private void MainMenu_FormClosed(object sender, FormClosedEventArgs e)
@@ -47,7 +61,17 @@ namespace WCT
 
         private void logoutToolStripMenuItem_Click(object sender, EventArgs e)
         {
+        }
+
+
+        private void logoutToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
             Application.Restart();
+        }
+
+        private void listSessionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

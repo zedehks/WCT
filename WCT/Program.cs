@@ -45,7 +45,8 @@ namespace WCT
                 Application.Run(u_login);
                 if (u_login.login_ok)
                 {
-                    Application.Run(new MainMenu(u_login.login_id));
+
+                    Application.Run(new MainMenu.MainMenu(u_login.login_id));
                 }
             }
         }
@@ -74,7 +75,7 @@ namespace WCT
             }
             public static void open_main_menu(int user_id)
             {
-                Application.Run(new MainMenu(user_id));
+                Application.Run(new MainMenu.MainMenu(user_id));
             }
         }
     } 

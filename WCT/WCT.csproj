@@ -66,11 +66,17 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MainMenu.cs">
+    <Compile Include="MainMenu\MainMenu.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainMenu.Designer.cs">
+    <Compile Include="MainMenu\MainMenu.Designer.cs">
       <DependentUpon>MainMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainMenu\Modify_Users.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainMenu\Modify_Users.Designer.cs">
+      <DependentUpon>Modify_Users.cs</DependentUpon>
     </Compile>
     <Compile Include="User\Login.cs">
       <SubType>Form</SubType>
@@ -79,10 +85,10 @@
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
     <Compile Include="sqlite_connector.cs" />
-    <Compile Include="Timer_Menu.cs">
+    <Compile Include="MainMenu\Timer_Menu.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Timer_Menu.Designer.cs">
+    <Compile Include="MainMenu\Timer_Menu.Designer.cs">
       <DependentUpon>Timer_Menu.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
@@ -94,13 +100,16 @@
     <Compile Include="User\Register.Designer.cs">
       <DependentUpon>Register.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="MainMenu.resx">
+    <EmbeddedResource Include="MainMenu\MainMenu.resx">
       <DependentUpon>MainMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainMenu\Modify_Users.resx">
+      <DependentUpon>Modify_Users.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="User\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Timer_Menu.resx">
+    <EmbeddedResource Include="MainMenu\Timer_Menu.resx">
       <DependentUpon>Timer_Menu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
