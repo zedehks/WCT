@@ -71,7 +71,7 @@ namespace WCT.MainMenu
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string sql_del = @"delete from users where id_user = '{0}'";
+            string sql_del = @"delete from users where id_user = {0}";
             string userid = dataGridView1.CurrentRow.Cells[0].Value.ToString();
             if(userid == "0")
             {

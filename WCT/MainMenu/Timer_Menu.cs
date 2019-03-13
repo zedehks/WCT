@@ -17,12 +17,14 @@ namespace WCT
         bool is_solving;
         DateTime StartTime;
         double total_ms = 0;
-        public Timer_Menu()
+        string id_session;
+        public Timer_Menu(string id_session)
         {
             InitializeComponent();
             s = new Scramble();
             label1.Text = "Press Space to generate a scramble";
             is_solving = false;
+            this.id_session = id_session;
           //  this.DoubleBuffered = true;
            // SetStyle(ControlStyles.AllPaintingInWmPaint, true);
         }
@@ -54,12 +56,7 @@ namespace WCT
             TimeSpan elapsed = DateTime.Now - StartTime;
            total_ms = elapsed.TotalMilliseconds;
             string time_text = "";
-          //  int tenths = elapsed.Milliseconds / 10;
-            /*time_text +=
-                elapsed.Minutes.ToString("00") + ":" +
-                elapsed.Seconds.ToString("00") + "." +
-                tenths.ToString("00");*/
-            time_text = TimeSpan.FromMilliseconds(elapsed.TotalMilliseconds).ToString("c");
+            time_text = TimeSpan.FromMilliseconds(elapsed.TotalMilliseconds).ToString(@"mm\:ss\.ff");
             this.label2.Text = time_text;
         }
 

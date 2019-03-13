@@ -78,6 +78,18 @@
     <Compile Include="MainMenu\Modify_Users.Designer.cs">
       <DependentUpon>Modify_Users.cs</DependentUpon>
     </Compile>
+    <Compile Include="MainMenu\Session\New_Session.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainMenu\Session\New_Session.Designer.cs">
+      <DependentUpon>New_Session.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainMenu\Session\Sessions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainMenu\Session\Sessions.Designer.cs">
+      <DependentUpon>Sessions.cs</DependentUpon>
+    </Compile>
     <Compile Include="User\Login.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -105,6 +117,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainMenu\Modify_Users.resx">
       <DependentUpon>Modify_Users.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainMenu\Session\New_Session.resx">
+      <DependentUpon>New_Session.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainMenu\Session\Sessions.resx">
+      <DependentUpon>Sessions.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="User\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>

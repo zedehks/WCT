@@ -54,22 +54,30 @@ namespace WCT.MainMenu
 
         private void fileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Timer_Menu tm = new Timer_Menu();
+            Timer_Menu tm = new Timer_Menu("");
             tm.MdiParent = this;
             tm.Show();
         }
 
-        private void logoutToolStripMenuItem_Click(object sender, EventArgs e)
+
+        private void listSessionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            Session.Sessions ss = new Session.Sessions(this.id_user.ToString());
+            ss.MdiParent = this;
+            ss.Show();
         }
 
-
-        private void logoutToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
             Application.Restart();
         }
 
-        private void listSessionsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        public void open_timer(string id_session)
         {
 
         }
