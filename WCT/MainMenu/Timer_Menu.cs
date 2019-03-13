@@ -29,9 +29,22 @@ namespace WCT
             label1.Text = "Press Space to generate a scramble";
             is_solving = false;
             this.id_session = id_session;
-            MessageBox.Show(id_session);
             this.show_solves = false;
             update_solves();
+            //dataGridView1.Columns[1].ValueType = typeof(string);
+           // dataGridView1.Columns[1].DefaultCellStyle.Format = "t";
+            //dataGridView1.Columns[1].DefaultCellStyle = TimeSpan.FromMilliseconds(tmp).ToString(@"mm\:ss\.ff");
+            //convert_grid_times();
+        }
+        void convert_grid_times()
+        {
+            foreach (DataGridViewRow r in dataGridView1.Rows)
+            {
+                double tmp = Convert.ToDouble(r.Cells[1].Value);
+                string tmp_str = TimeSpan.FromMilliseconds(tmp).ToString(@"mm\:ss\.ff");
+                MessageBox.Show(tmp_str);
+                r.Cells[1].Value = tmp_str;
+            }
         }
 
         private void Form1_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
@@ -80,7 +93,7 @@ namespace WCT
         }
         void save_solve()
         {
-            //string sql = @"insert into solve(id_session,time,scramble) values({0},{1},\"{2}\")";
+            string sql = @"insert into solve(id_session,time,scramble) values({0},{1},""{2}"")";
             con.open();
             string tmp = string.Format(sql,id_session,total_ms,current_scramble);
             con.command(tmp);
@@ -90,7 +103,7 @@ namespace WCT
 
         void update_solves()
         {
-            string sql = @"select id_solve as '#',time as Time,scramble as Scramble
+            string sql = @"select id_solve as 'Number',time as Time,scramble as Scramble
             from solve";
             con.open();
             this.dataGridView1.DataSource = con.select(sql).Tables[0];
@@ -110,6 +123,15 @@ namespace WCT
             this.show_solves = false;
             this.splitContainer2.Panel2Collapsed = true;
             splitContainer2.Panel2.Hide();
+        }
+
+        private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.ColumnIndex == 1)
+            {
+                e.Value = TimeSpan.FromMilliseconds((double)e.Value).ToString(@"mm\:ss\.ff");
+                e.FormattingApplied = true;
+            }
         }
     }
 }
