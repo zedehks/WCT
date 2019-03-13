@@ -26,15 +26,12 @@ namespace WCT
         {
             InitializeComponent();
             s = new Scramble();
-            label1.Text = "Press Space to generate a scramble";
+            label1.Text = "Press Space to generate a scramble."+
+                "\nPress Delete to delete last solve.";
             is_solving = false;
             this.id_session = id_session;
             this.show_solves = false;
             update_solves();
-            //dataGridView1.Columns[1].ValueType = typeof(string);
-           // dataGridView1.Columns[1].DefaultCellStyle.Format = "t";
-            //dataGridView1.Columns[1].DefaultCellStyle = TimeSpan.FromMilliseconds(tmp).ToString(@"mm\:ss\.ff");
-            //convert_grid_times();
         }
         void convert_grid_times()
         {
@@ -42,7 +39,6 @@ namespace WCT
             {
                 double tmp = Convert.ToDouble(r.Cells[1].Value);
                 string tmp_str = TimeSpan.FromMilliseconds(tmp).ToString(@"mm\:ss\.ff");
-                MessageBox.Show(tmp_str);
                 r.Cells[1].Value = tmp_str;
             }
         }
@@ -54,9 +50,6 @@ namespace WCT
                 if (!is_solving)
                 {
                     timer1.Stop();
-                    current_scramble = s.scramble_gen().ToString();
-                    label1.Text = "Scramble:\n" + current_scramble;
-                    is_solving = true;
                     if(first_scramble)
                     {
                         first_scramble = false;
@@ -66,6 +59,10 @@ namespace WCT
                     {
                         save_solve();
                     }
+                    current_scramble = s.scramble_gen().ToString();
+                    label1.Text = "Scramble:\n" + current_scramble;
+                    is_solving = true;
+                    
                 }
                 else
                 {
@@ -75,20 +72,9 @@ namespace WCT
                     is_solving = false;
                 }
             }
-            else if (e.KeyCode == Keys.Oemtilde)
+            else if (e.KeyCode == Keys.Delete)
             {
-                if(this.show_solves)
-                {
-                    this.show_solves = false;
-                    this.splitContainer2.Panel2Collapsed = true;
-                    splitContainer2.Panel2.Hide();
-                }
-                else
-                {
-                    this.show_solves = true;
-                    this.splitContainer2.Panel2Collapsed = false;
-                    splitContainer2.Panel2.Show();
-                }
+                deleteToolStripMenuItem_Click(sender, e);
             }
         }
         void save_solve()
@@ -104,9 +90,9 @@ namespace WCT
         void update_solves()
         {
             string sql = @"select id_solve as 'Number',time as Time,scramble as Scramble
-            from solve";
+            from solve where id_session={0}";
             con.open();
-            this.dataGridView1.DataSource = con.select(sql).Tables[0];
+            this.dataGridView1.DataSource = con.select(string.Format(sql,id_session)).Tables[0];
             con.close();
         }
         private void timer1_Tick(object sender, EventArgs e)
@@ -120,9 +106,9 @@ namespace WCT
 
         private void Timer_Menu_Load(object sender, EventArgs e)
         {
-            this.show_solves = false;
-            this.splitContainer2.Panel2Collapsed = true;
-            splitContainer2.Panel2.Hide();
+            this.show_solves = true;
+            //this.splitContainer2.Panel2Collapsed = false;
+            //splitContainer2.Panel2.Hide();
         }
 
         private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -131,7 +117,43 @@ namespace WCT
             {
                 e.Value = TimeSpan.FromMilliseconds((double)e.Value).ToString(@"mm\:ss\.ff");
                 e.FormattingApplied = true;
+                dataGridView1.Focus();
             }
+        }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string sql = @"delete from solve where id_solve =  (Select max(id_solve) from solve where id_session={0});";
+                con.open();
+                con.command(string.Format(sql,id_session));
+                con.close();
+                MessageBox.Show("Last Solve Deleted");
+                update_solves();
+
+            }
+            catch (System.ArgumentOutOfRangeException ex) { }
+        }
+
+        private void dataGridView1_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            if(e.Button == MouseButtons.Right)
+            {
+                ContextMenu cm = new ContextMenu();
+                cm.MenuItems.Add(new MenuItem("Delete"));
+
+                int curr_row = dataGridView1.HitTest(e.X, e.Y).RowIndex;
+                if(curr_row >= 0)
+                {
+                    deleteToolStripMenuItem_Click(sender, new EventArgs());
+                }
+            }
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            dataGridView1.Focus();
         }
     }
 }

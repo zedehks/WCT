@@ -24,19 +24,28 @@ namespace WCT.MainMenu.Session
 
         private void Sessions_Load(object sender, EventArgs e)
         {
-            update_sessions();
-            dataGridView1.Columns[2].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-            dataGridView1.AutoResizeColumn(2,DataGridViewAutoSizeColumnMode.Fill);
-            dataGridView1.Columns[1].DefaultCellStyle.Format = "yyyy-MM-dd HH:mm";
+            try
+            {
+                update_sessions();
+                dataGridView1.Columns[2].DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+                dataGridView1.AutoResizeColumn(2, DataGridViewAutoSizeColumnMode.Fill);
+                dataGridView1.Columns[1].DefaultCellStyle.Format = "yyyy-MM-dd HH:mm";
+            }
+            catch { }
         }
         public void update_sessions()
         {
-            string tmp = string.Format(sql, user_id);
-            dataGridView1.Columns[1].DefaultCellStyle.Format = "yyyy-MM-dd HH:mm";
-            con.open();
-            this.dataGridView1.DataSource = con.select(tmp).Tables[0];
-            con.close();
-            dataGridView1.Columns[1].DefaultCellStyle.Format = "yyyy-MM-dd HH:mm";
+            try
+            {
+                string tmp = string.Format(sql, user_id);
+                dataGridView1.Columns[1].DefaultCellStyle.Format = "yyyy-MM-dd HH:mm";
+                con.open();
+                this.dataGridView1.DataSource = con.select(tmp).Tables[0];
+                con.close();
+                dataGridView1.Columns[1].DefaultCellStyle.Format = "yyyy-MM-dd HH:mm";
+            }
+            catch { }
+           
         }
 
         private void addNewSessionToolStripMenuItem_Click_1(object sender, EventArgs e)

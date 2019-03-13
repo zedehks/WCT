@@ -73,7 +73,7 @@ namespace WCT.MainMenu
         {
             string sql_del = @"delete from users where id_user = {0};
             delete from session where id_user={0};
-delete from solve where id_user={0};
+            delete from solve where solve.id_session in (select id_session from session where id_user = {0} and solve.id_session=session.id_Session);;
             ";
             string userid = dataGridView1.CurrentRow.Cells[0].Value.ToString();
             if(userid == "0")
@@ -88,7 +88,7 @@ delete from solve where id_user={0};
                 con.close();
                 MessageBox.Show("User has been deleted.");
                 update_dfv(true);
-            }catch (Exception ex) { MessageBox.Show(ex.Message); try { con.close(); } catch { } }
+            }catch (Exception ex) { /*MessageBox.Show(ex.Message)*/; try { con.close(); } catch { } }
             finally {
                 update_dfv(true);
             }
